@@ -61,4 +61,18 @@ describe('Teste do TEAMS endpoint', () => {
     expect(status).to.equal(200);
     expect(body).to.deep.equal(teams);
   });
+  it('Retorna um time com sucesso', async function () {
+    sinon.stub(SequelizeTeam, 'findByPk').resolves(team as any);
+    const httpResponse = await chai.request(app).get('/teams/12');
+    const { status, body } = httpResponse;
+    expect(status).to.equal(200);
+    expect(body).to.deep.equal(team);
+  });
+  it('Retorna erro 404 quando não encontra um time', async function () {
+    sinon.stub(SequelizeTeam, 'findByPk').resolves(null);
+    const httpResponse = await chai.request(app).get('/teams/12');
+    const { status, body } = httpResponse;
+    expect(status).to.equal(404);
+    expect(body).to.deep.equal({ message: 'Team not found.' });
+  });
 })
