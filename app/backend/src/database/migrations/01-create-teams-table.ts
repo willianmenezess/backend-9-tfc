@@ -13,7 +13,7 @@ export default {
       teamName: {
         type: DataTypes.STRING,
         allowNull: false,
-        field: 'team_name',
+        field: 'team_name'
       },
      
     });
