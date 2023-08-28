@@ -8,7 +8,6 @@ import SequelizeTeam from '../database/models/SequelizeTeam';
 import { team, teams } from './mocks/TeamMock';
 import SequelizeUser from '../database/models/SequelizeUser';
 
-import { Response } from 'superagent';
 
 chai.use(chaiHttp);
 
@@ -78,16 +77,3 @@ describe('Teste do TEAMS endpoint', () => {
   });
 })
 
-// describe('Teste do LOGIN endpoint', () => {
-//   afterEach(sinon.restore);
-//   it('Retorna um token de acesso com sucesso', async function () {
-//     sinon.stub(SequelizeTeam, 'findByPk').resolves(user as any);
-//     sinon.stub(JWT, 'sign').returns('validToken');
-//     sinon.stub(Validations, 'validateUser').returns();
-
-//     const httpResponse = await chai.request(app).post('/login').set('authorization', 'validToken').send(user);
-//     const { status, body } = httpResponse;
-//     expect(status).to.equal(200);
-//     expect(body).to.deep.equal({ token: 'validToken' });
-//   });
-// });
