@@ -13,9 +13,9 @@ export default class UserService {
 
   public async login(data: Login): Promise<ServiceResponse<ServiceMessage | IToken>> {
     const user = await this.userModel.findByEmail(data.email);
-    if (!user) return { status: 'NOT_FOUND', data: { message: 'User not found.' } };
+    if (!user) return { status: 'UNAUTHORIZED', data: { message: 'Invalid email or password' } };
     if (!bcrypt.compareSync(data.password, user.password)) {
-      return { status: 'INVALID_DATA', data: { message: 'Invalid password.' } };
+      return { status: 'UNAUTHORIZED', data: { message: 'Invalid email or password' } };
     }
     const { email } = user;
     const token = JWT.sign({ email });

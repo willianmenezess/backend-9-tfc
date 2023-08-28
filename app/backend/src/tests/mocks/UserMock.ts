@@ -8,5 +8,9 @@ export const userFromDB = {
 
 export const validLoginBody = {
 	email: 'admin@admin.com',
-	password: 'senha'
+	password: 'senha_nao_criptografada'
 }
+
+export const invalidEmailLoginBody = { email: 'errado@.com', password: '123456' }
+
+export const invalidPasswordLoginBody = { email: 'admin@admin.com', password: 'senha_errada' }
