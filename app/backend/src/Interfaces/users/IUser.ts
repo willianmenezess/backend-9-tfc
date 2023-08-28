@@ -5,3 +5,11 @@ export default interface IUser {
   email: string;
   password: string;
 }
+
+// usuário existente para login
+export type Login = {
+  email: string;
+  password: string;
+};
+
+export type IUserResponse = Omit<IUser, 'password'>;
