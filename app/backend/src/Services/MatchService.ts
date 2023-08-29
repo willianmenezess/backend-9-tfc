@@ -6,7 +6,12 @@ export default class MatchService {
     private matchModel: IMatchModel = new MatchModel(),
   ) { }
 
-  public async getAllMatches() {
+  public async getAllMatches(isInProgressFilter: string) {
+    if (isInProgressFilter) {
+      const isInProgress = isInProgressFilter === 'true';
+      const inProgressMatches = await this.matchModel.findByFilterProgress(isInProgress);
+      return { status: 'SUCCESSFUL', data: inProgressMatches };
+    }
     const allMatches = await this.matchModel.findAll();
     return { status: 'SUCCESSFUL', data: allMatches };
   }
