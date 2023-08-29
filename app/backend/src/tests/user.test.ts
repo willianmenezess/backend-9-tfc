@@ -53,4 +53,33 @@ describe('Teste do LOGIN endpoint', () => {
 	it('Retorna um erro 401 para um email no formato inválido', async function () {
 		const httpResponse = await chai.request(app).post('/login').send({...validLoginBody, email: 'email_invalido'});
 	});
+	it('Retorna um erro 401 para uma senha com menos de 6 caracteres', async function () {
+		const httpResponse = await chai.request(app).post('/login').send({...validLoginBody, password: '12345'});
+		const { status, body } = httpResponse;
+		expect(status).to.equal(401);
+		expect(body).to.have.key('message');
+	});
+	it('Retorna um erro 401 se não for enviado um token no Authorization', async function () {
+		const httpResponse = await chai.request(app).get('/login/role').send();
+		const { status, body } = httpResponse;
+		expect(status).to.equal(401);
+		expect(body).to.have.key('message');
+	});
+	it('Retorna um erro 401 se for enviado um token inválido no Authorization', async function () {
+		sinon.stub(JWT, 'verify').returns('Token must be a valid token');
+		const httpResponse = await chai.request(app).get('/login/role').set('authorization', 'invalidToken').send();
+		const { status, body } = httpResponse;
+		expect(status).to.equal(401);
+		expect(body).to.deep.equal({ message: 'Token must be a valid token' });
+	});
+	it('Retorna status 200 e o role do usuário para um token válido', async function () {
+		sinon.stub(JWT, 'verify').returns('validToken');
+		sinon.stub(SequelizeUser, 'findOne').resolves(userFromDB as any);
+		const httpResponse = await chai.request(app).get('/login/role')
+		.set('authorization', 'validToken')
+		.send();
+		const { status, body } = httpResponse;
+		expect(status).to.equal(200);
+		expect(body).to.deep.equal({ role: 'admin' });
+	});
 });
