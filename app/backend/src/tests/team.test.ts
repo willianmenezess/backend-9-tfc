@@ -6,7 +6,6 @@ import chaiHttp = require('chai-http');
 import { app } from '../app';
 import SequelizeTeam from '../database/models/SequelizeTeam';
 import { team, teams } from './mocks/TeamMock';
-import SequelizeUser from '../database/models/SequelizeUser';
 
 
 chai.use(chaiHttp);
