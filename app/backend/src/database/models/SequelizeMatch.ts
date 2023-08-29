@@ -6,6 +6,7 @@ import {
   CreationOptional,
 } from 'sequelize';
 import db from '.';
+import SequelizeTeam from './SequelizeTeam';
 
 class SequelizeMatch extends Model<InferAttributes<SequelizeMatch>,
 InferCreationAttributes<SequelizeMatch>> {
@@ -50,6 +51,16 @@ SequelizeMatch.init({
   tableName: 'matches',
   timestamps: false,
   underscored: true,
+});
+
+SequelizeMatch.belongsTo(SequelizeTeam, {
+  foreignKey: 'homeTeamId',
+  as: 'homeTeam',
+});
+
+SequelizeMatch.belongsTo(SequelizeTeam, {
+  foreignKey: 'awayTeamId',
+  as: 'awayTeam',
 });
 
 export default SequelizeMatch;

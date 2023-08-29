@@ -1,0 +1,1 @@
+export const matches = [{ id: 1, homeTeam: { name: 'Palmeiras' }, awayTeam: { name: 'Corinthians' } }]
