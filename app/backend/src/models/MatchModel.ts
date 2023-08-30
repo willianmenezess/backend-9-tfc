@@ -2,8 +2,9 @@ import IMatch, { IMatchInput } from '../Interfaces/matches/IMatch';
 import SequelizeMatch from '../database/models/SequelizeMatch';
 import SequelizeTeam from '../database/models/SequelizeTeam';
 import { NewEntity } from '../Interfaces';
+import { IMatchModel } from '../Interfaces/matches/IMatchModel';
 
-export default class IMatchModel {
+export default class MatchModel implements IMatchModel {
   private model = SequelizeMatch;
 
   public async findAll(): Promise<IMatch[]> {
@@ -16,16 +17,16 @@ export default class IMatchModel {
     return matches;
   }
 
-  public async findById(id: IMatch['id']): Promise<IMatch | null> {
-    const match = await this.model.findOne({
-      where: { id },
-      include: [
-        { model: SequelizeTeam, as: 'homeTeam', attributes: { exclude: ['id'] } },
-        { model: SequelizeTeam, as: 'awayTeam', attributes: { exclude: ['id'] } },
-      ],
-    });
-    return match;
-  }
+  // public async findById(id: IMatch['id']): Promise<IMatch | null> {
+  //   const match = await this.model.findOne({
+  //     where: { id },
+  //     include: [
+  //       { model: SequelizeTeam, as: 'homeTeam', attributes: { exclude: ['id'] } },
+  //       { model: SequelizeTeam, as: 'awayTeam', attributes: { exclude: ['id'] } },
+  //     ],
+  //   });
+  //   return match;
+  // }
 
   public async findByFilterProgress(inProgress: boolean): Promise<IMatch[]> {
     const matches = await this.model.findAll({
