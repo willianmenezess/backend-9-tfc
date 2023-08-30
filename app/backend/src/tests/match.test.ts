@@ -4,7 +4,7 @@ import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 import { app } from '../app';
 import SequelizeMatch from '../database/models/SequelizeMatch';
-// import JWT from '../utils/JWT';
+import JWT from '../utils/JWT';
 // import Validations from '../middlewares/Validations';
 import { matches, matchesInProgressTrue, matchesInProgressFalse } from '../tests/mocks/MatchMock';
 // import * as bcrypt from 'bcrypt';
@@ -35,5 +35,13 @@ describe('Teste do MATCH endpoint', () => {
     const { status, body } = httpResponse;
     expect(status).to.equal(200);
     expect(body).to.deep.equal(matchesInProgressFalse);
+  });
+  it('Retorna um status 200 a mensagem "Finished" ao finalizar uma partida (match) com sucesso', async function () {
+    sinon.stub(JWT, 'verify').resolves();
+    sinon.stub(SequelizeMatch, 'update').resolves();
+    const httpResponse = await chai.request(app).patch('/matches/1/finish').set('authorization', 'validToken').send();
+    const { status, body } = httpResponse;
+    expect(status).to.equal(200);
+    expect(body).to.deep.equal({ message: 'Finished' });
   });
 });

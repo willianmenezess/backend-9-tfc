@@ -1,4 +1,4 @@
-import IMatch from '../Interfaces/matches/IMatch';
+import IMatch, { IMatchInput } from '../Interfaces/matches/IMatch';
 import SequelizeMatch from '../database/models/SequelizeMatch';
 import SequelizeTeam from '../database/models/SequelizeTeam';
 
@@ -40,6 +40,13 @@ export default class IMatchModel {
   public async finishMatch(id: IMatch['id']): Promise<void> {
     await this.model.update(
       { inProgress: false },
+      { where: { id } },
+    );
+  }
+
+  public async updateMatch(id: IMatch['id'], matchInput: IMatchInput): Promise<void> {
+    await this.model.update(
+      { homeTeamGoals: matchInput.homeTeamGoals, awayTeamGoals: matchInput.awayTeamGoals },
       { where: { id } },
     );
   }

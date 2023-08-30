@@ -1,5 +1,5 @@
 import MatchModel from '../models/MatchModel';
-import IMatch from '../Interfaces/matches/IMatch';
+import IMatch, { IMatchInput } from '../Interfaces/matches/IMatch';
 import { IMatchModel } from '../Interfaces/matches/IMatchModel';
 import { ServiceMessage, ServiceResponse } from '../Interfaces/ServiceResponse';
 
@@ -21,5 +21,11 @@ export default class MatchService {
   public async finishMatch(id: IMatch['id']): Promise<ServiceResponse<ServiceMessage>> {
     await this.matchModel.finishMatch(id);
     return { status: 'SUCCESSFUL', data: { message: 'Finished' } };
+  }
+
+  public async updateMatch(id: IMatch['id'], matchInput: IMatchInput)
+    : Promise<ServiceResponse<ServiceMessage>> {
+    await this.matchModel.updateMatch(id, matchInput);
+    return { status: 'SUCCESSFUL', data: { message: 'Updated' } };
   }
 }
