@@ -52,6 +52,9 @@ describe('Teste do LOGIN endpoint', () => {
 	});
 	it('Retorna um erro 401 para um email no formato inválido', async function () {
 		const httpResponse = await chai.request(app).post('/login').send({...validLoginBody, email: 'email_invalido'});
+		const { status, body } = httpResponse;
+		expect(status).to.equal(401);
+		expect(body).to.have.key('message');
 	});
 	it('Retorna um erro 401 para uma senha com menos de 6 caracteres', async function () {
 		const httpResponse = await chai.request(app).post('/login').send({...validLoginBody, password: '12345'});

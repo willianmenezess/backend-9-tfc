@@ -44,4 +44,15 @@ describe('Teste do MATCH endpoint', () => {
     expect(status).to.equal(200);
     expect(body).to.deep.equal({ message: 'Finished' });
   });
+  it('Retorna um status 200 a mensagem "Updated" ao atualizar uma partida (match) com sucesso', async function () {
+    sinon.stub(JWT, 'verify').resolves();
+    sinon.stub(SequelizeMatch, 'update').resolves();
+    const httpResponse = await chai.request(app).patch('/matches/1').set('authorization', 'validToken').send({
+      "homeTeamGoals": 3,
+      "awayTeamGoals": 1
+    });
+    const { status, body } = httpResponse;
+    expect(status).to.equal(200);
+    expect(body).to.deep.equal({ message: 'Updated' });
+  });
 });
