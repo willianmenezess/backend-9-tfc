@@ -1,12 +1,14 @@
 import MatchModel from '../models/MatchModel';
+import IMatch from '../Interfaces/matches/IMatch';
 import { IMatchModel } from '../Interfaces/matches/IMatchModel';
+import { ServiceMessage, ServiceResponse } from '../Interfaces/ServiceResponse';
 
 export default class MatchService {
   constructor(
     private matchModel: IMatchModel = new MatchModel(),
   ) { }
 
-  public async getAllMatches(isInProgressFilter: string) {
+  public async getAllMatches(isInProgressFilter: string): Promise<ServiceResponse<IMatch[]>> {
     if (isInProgressFilter) {
       const isInProgress = isInProgressFilter === 'true';
       const inProgressMatches = await this.matchModel.findByFilterProgress(isInProgress);
@@ -14,5 +16,10 @@ export default class MatchService {
     }
     const allMatches = await this.matchModel.findAll();
     return { status: 'SUCCESSFUL', data: allMatches };
+  }
+
+  public async finishMatch(id: IMatch['id']): Promise<ServiceResponse<ServiceMessage>> {
+    await this.matchModel.finishMatch(id);
+    return { status: 'SUCCESSFUL', data: { message: 'Finished' } };
   }
 }

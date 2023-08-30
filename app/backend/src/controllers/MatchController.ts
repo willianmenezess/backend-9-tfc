@@ -14,11 +14,10 @@ export default class MatchController {
     return res.status(mapStatusHTTP(status)).json(data);
   }
 
-  // public async getMatchProgress(req: Request, res: Response): Promise<Response> {
-  //   const { query } = req;
-  //   const isProgress = query.progress === 'true';
-  //   const serviceResponse = await this.matchService.getMatchProgress(isProgress);
-  //   const { status, data } = serviceResponse;
-  //   return res.status(mapStatusHTTP(status)).json(data);
-  // }
+  public async finishMatch(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+    const serviceResponse = await this.matchService.finishMatch(Number(id));
+    const { status, data } = serviceResponse;
+    return res.status(mapStatusHTTP(status)).json(data);
+  }
 }

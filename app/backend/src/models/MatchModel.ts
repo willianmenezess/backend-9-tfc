@@ -15,7 +15,7 @@ export default class IMatchModel {
     return matches;
   }
 
-  public async findById(id: number): Promise<IMatch | null> {
+  public async findById(id: IMatch['id']): Promise<IMatch | null> {
     const match = await this.model.findOne({
       where: { id },
       include: [
@@ -35,5 +35,12 @@ export default class IMatchModel {
       ],
     });
     return matches;
+  }
+
+  public async finishMatch(id: IMatch['id']): Promise<void> {
+    await this.model.update(
+      { inProgress: false },
+      { where: { id } },
+    );
   }
 }
