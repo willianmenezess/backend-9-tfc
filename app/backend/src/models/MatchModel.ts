@@ -1,6 +1,7 @@
 import IMatch, { IMatchInput } from '../Interfaces/matches/IMatch';
 import SequelizeMatch from '../database/models/SequelizeMatch';
 import SequelizeTeam from '../database/models/SequelizeTeam';
+import { NewEntity } from '../Interfaces';
 
 export default class IMatchModel {
   private model = SequelizeMatch;
@@ -49,5 +50,10 @@ export default class IMatchModel {
       { homeTeamGoals: matchInput.homeTeamGoals, awayTeamGoals: matchInput.awayTeamGoals },
       { where: { id } },
     );
+  }
+
+  public async create(newMatch: NewEntity<IMatch>): Promise<IMatch> {
+    const matchCreated = await this.model.create({ ...newMatch, inProgress: true });
+    return matchCreated;
   }
 }

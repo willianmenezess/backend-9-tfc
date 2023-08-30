@@ -2,6 +2,7 @@ import MatchModel from '../models/MatchModel';
 import IMatch, { IMatchInput } from '../Interfaces/matches/IMatch';
 import { IMatchModel } from '../Interfaces/matches/IMatchModel';
 import { ServiceMessage, ServiceResponse } from '../Interfaces/ServiceResponse';
+import { NewEntity } from '../Interfaces';
 
 export default class MatchService {
   constructor(
@@ -27,5 +28,10 @@ export default class MatchService {
     : Promise<ServiceResponse<ServiceMessage>> {
     await this.matchModel.updateMatch(id, matchInput);
     return { status: 'SUCCESSFUL', data: { message: 'Updated' } };
+  }
+
+  public async createMatch(newMatch: NewEntity<IMatch>): Promise<ServiceResponse<IMatch>> {
+    const matchCreated = await this.matchModel.create(newMatch);
+    return { status: 'CREATED', data: matchCreated };
   }
 }
