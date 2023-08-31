@@ -2,13 +2,14 @@ import MatchModel from '../models/MatchModel';
 import TeamModel from '../models/TeamModel';
 import IMatch, { IMatchInput } from '../Interfaces/matches/IMatch';
 import { IMatchModel } from '../Interfaces/matches/IMatchModel';
+import { ITeamModel } from '../Interfaces/teams/ITeamModel';
 import { ServiceMessage, ServiceResponse } from '../Interfaces/ServiceResponse';
 import { NewEntity } from '../Interfaces';
 
 export default class MatchService {
   constructor(
     private matchModel: IMatchModel = new MatchModel(),
-    private teamModel: TeamModel = new TeamModel(),
+    private teamModel: ITeamModel = new TeamModel(),
   ) { }
 
   public async getAllMatches(isInProgressFilter: string): Promise<ServiceResponse<IMatch[]>> {
