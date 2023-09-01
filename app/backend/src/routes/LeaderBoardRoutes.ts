@@ -15,4 +15,9 @@ router.get(
   (req: Request, res: Response) => leaderBoardController.getPerformanceTeamsAway(req, res),
 );
 
+router.get(
+  '/',
+  (req: Request, res: Response) => leaderBoardController.getClassificationOfTheTeams(req, res),
+);
+
 export default router;

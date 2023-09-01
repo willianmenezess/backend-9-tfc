@@ -112,4 +112,23 @@ export default class LeaderBoardService {
     const orderTeamsHomePoints = LeaderBoardService.orderTeamsByPoints(performanceOfTeams);
     return { status: 'SUCCESSFUL', data: orderTeamsHomePoints };
   }
+
+  public async getClassificationOfTheTeams(): Promise<ServiceResponse<IPerformance[]>> {
+    const getAllTeams = await this.teamModel.findAll() as ITeam[];
+    const getAllMatches = await this.matchModel.findAll() as IMatchFromDB[];
+    const allMatchesFinished = getAllMatches.filter(({ inProgress }) => !inProgress);
+    const performanceOfTeams = getAllTeams.map(({ teamName }) => {
+      const teamMatches = allMatchesFinished.filter(({ homeTeam, awayTeam }) =>
+        homeTeam.teamName === teamName || awayTeam.teamName === teamName);
+      const wins = teamMatches.filter(({ homeTeam, homeTeamGoals, awayTeamGoals }) => {
+        if (homeTeam.teamName === teamName) return homeTeamGoals > awayTeamGoals;
+        return awayTeamGoals > homeTeamGoals;
+      });
+      const draws = teamMatches.filter(({ homeTeamGoals, awayTeamGoals }) =>
+        homeTeamGoals === awayTeamGoals);
+      return LeaderBoardService.generateTeam(teamName, teamMatches, wins, draws);
+    });
+    const orderTeamsPoints = LeaderBoardService.orderTeamsByPoints(performanceOfTeams);
+    return { status: 'SUCCESSFUL', data: orderTeamsPoints };
+  }
 }

@@ -18,4 +18,10 @@ export default class LeaderBoardController {
     const { status, data } = serviceResponse;
     return res.status(mapStatusHTTP(status)).json(data);
   }
+
+  public async getClassificationOfTheTeams(_req: Request, res: Response): Promise<Response> {
+    const serviceResponse = await this.leaderBoardService.getClassificationOfTheTeams();
+    const { status, data } = serviceResponse;
+    return res.status(mapStatusHTTP(status)).json(data);
+  }
 }

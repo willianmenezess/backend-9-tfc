@@ -28,4 +28,11 @@ describe('Teste do LEADERBOARD endpoint', () => {
 		const { status, body } = httpRespose;
 		expect(status).to.equal(200);
 	});
+	it('Retorna status 200 e a classificação GERAL dos times com sucesso, em ordem decrescente com base nos critérios estabelecidos', async function () {
+		sinon.stub(SequelizeTeam, 'findAll').resolves(teams as any)
+		sinon.stub(SequelizeMatch, 'findAll').resolves(matches as any)
+		const httpRespose = await chai.request(app).get('/leaderboard/');
+		const { status, body } = httpRespose;
+		expect(status).to.equal(200);
+	});
 });
