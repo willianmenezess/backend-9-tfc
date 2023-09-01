@@ -33,7 +33,7 @@ export default class LeaderBoardService {
 
   static eficiencyTeam(
     teamMatches: IMatchFromDB[],
-    teamName: string,
+    _teamName: string,
     wins: IMatchFromDB[],
     draws: IMatchFromDB[],
   ) {
@@ -88,6 +88,23 @@ export default class LeaderBoardService {
         homeTeam.teamName === teamName);
       const wins = teamMatches
         .filter(({ homeTeamGoals, awayTeamGoals }) => homeTeamGoals > awayTeamGoals);
+      const draws = teamMatches.filter(({ homeTeamGoals, awayTeamGoals }) =>
+        homeTeamGoals === awayTeamGoals);
+      return LeaderBoardService.generateTeam(teamName, teamMatches, wins, draws);
+    });
+    const orderTeamsHomePoints = LeaderBoardService.orderTeamsByPoints(performanceOfTeams);
+    return { status: 'SUCCESSFUL', data: orderTeamsHomePoints };
+  }
+
+  public async getPerformanceTeamsAway(): Promise<ServiceResponse<IPerformance[]>> {
+    const getAllTeams = await this.teamModel.findAll() as ITeam[];
+    const getAllMatches = await this.matchModel.findAll() as IMatchFromDB[];
+    const allMatchesFinished = getAllMatches.filter(({ inProgress }) => !inProgress);
+    const performanceOfTeams = getAllTeams.map(({ teamName }) => {
+      const teamMatches = allMatchesFinished.filter(({ awayTeam }) =>
+        awayTeam.teamName === teamName);
+      const wins = teamMatches
+        .filter(({ homeTeamGoals, awayTeamGoals }) => awayTeamGoals > homeTeamGoals);
       const draws = teamMatches.filter(({ homeTeamGoals, awayTeamGoals }) =>
         homeTeamGoals === awayTeamGoals);
       return LeaderBoardService.generateTeam(teamName, teamMatches, wins, draws);
