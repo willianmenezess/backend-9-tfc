@@ -31,21 +31,52 @@ export default class LeaderBoardService {
     return totalGoalsOwn;
   }
 
+  static eficiencyTeam(
+    teamMatches: IMatchFromDB[],
+    teamName: string,
+    wins: IMatchFromDB[],
+    draws: IMatchFromDB[],
+  ) {
+    const totalPoints = wins.length * 3 + draws.length;
+    const totalGames = teamMatches.length;
+    return Number((((totalPoints / (totalGames * 3)) * 100).toFixed(2)));
+  }
+
   static generateTeam(
     teamName: string,
     teamMatches:IMatchFromDB[],
     wins: IMatchFromDB[],
     draws: IMatchFromDB[],
   ) {
+    const teamGoalsFavor = LeaderBoardService.goalsFavor(teamMatches, teamName);
+    const teamGoalsOwn = LeaderBoardService.goalsOwn(teamMatches, teamName);
     return { name: teamName,
       totalPoints: wins.length * 3 + draws.length,
       totalGames: teamMatches.length,
       totalVictories: wins.length,
       totalDraws: draws.length,
       totalLosses: teamMatches.length - wins.length - draws.length,
-      goalsFavor: LeaderBoardService.goalsFavor(teamMatches, teamName),
-      goalsOwn: LeaderBoardService.goalsOwn(teamMatches, teamName),
+      goalsFavor: teamGoalsFavor,
+      goalsOwn: teamGoalsOwn,
+      goalsBalance: teamGoalsFavor - teamGoalsOwn,
+      efficiency: LeaderBoardService.eficiencyTeam(teamMatches, teamName, wins, draws),
     };
+  }
+
+  static orderTeamsByPoints(teams: IPerformance[]) {
+    const teamsOrder = teams.sort((a, b) => {
+      if (a.totalPoints !== b.totalPoints) {
+        return b.totalPoints - a.totalPoints;
+      }
+      if (a.totalVictories !== b.totalVictories) {
+        return b.totalVictories - a.totalVictories;
+      }
+      if (a.goalsBalance !== b.goalsBalance) {
+        return b.goalsBalance - a.goalsBalance;
+      }
+      return b.goalsFavor - a.goalsFavor;
+    });
+    return teamsOrder;
   }
 
   public async getPerformanceTeamsHome(): Promise<ServiceResponse<IPerformance[]>> {
@@ -61,6 +92,7 @@ export default class LeaderBoardService {
         homeTeamGoals === awayTeamGoals);
       return LeaderBoardService.generateTeam(teamName, teamMatches, wins, draws);
     });
-    return { status: 'SUCCESSFUL', data: performanceOfTeams };
+    const orderTeamsHomePoints = LeaderBoardService.orderTeamsByPoints(performanceOfTeams);
+    return { status: 'SUCCESSFUL', data: orderTeamsHomePoints };
   }
 }
