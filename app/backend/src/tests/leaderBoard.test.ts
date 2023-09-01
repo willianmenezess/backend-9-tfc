@@ -18,21 +18,21 @@ describe('Teste do LEADERBOARD endpoint', () => {
 		sinon.stub(SequelizeTeam, 'findAll').resolves(teams as any)
 		sinon.stub(SequelizeMatch, 'findAll').resolves(matches as any)
 		const httpRespose = await chai.request(app).get('/leaderboard/home');
-		const { status, body } = httpRespose;
+		const { status } = httpRespose;
 		expect(status).to.equal(200);
   });
   it('Retorna status 200 e as performances dos times fora de casa (away) com sucesso, em ordem decrescente com base nos critérios estabelecidos', async function () {
 		sinon.stub(SequelizeTeam, 'findAll').resolves(teams as any)
 		sinon.stub(SequelizeMatch, 'findAll').resolves(matches as any)
 		const httpRespose = await chai.request(app).get('/leaderboard/away');
-		const { status, body } = httpRespose;
+		const { status } = httpRespose;
 		expect(status).to.equal(200);
 	});
 	it('Retorna status 200 e a classificação GERAL dos times com sucesso, em ordem decrescente com base nos critérios estabelecidos', async function () {
 		sinon.stub(SequelizeTeam, 'findAll').resolves(teams as any)
 		sinon.stub(SequelizeMatch, 'findAll').resolves(matches as any)
 		const httpRespose = await chai.request(app).get('/leaderboard/');
-		const { status, body } = httpRespose;
+		const { status } = httpRespose;
 		expect(status).to.equal(200);
 	});
 });
