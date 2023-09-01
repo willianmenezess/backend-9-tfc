@@ -3,4 +3,21 @@ export const team = {
   teamName: 'Palmeiras',
 }
 
-export const teams = [team];
+export const teams = [
+  {
+    id: 12,
+    teamName: 'Palmeiras',
+  },
+  {
+    id: 6,
+    teamName: 'Ferroviária',
+  },
+  {
+    id: 1,
+    teamName: 'Santos',
+  },
+  {
+    id: 2,
+    teamName: 'Grêmio',
+  },
+];
