@@ -8,7 +8,7 @@ import JWT from '../utils/JWT';
 import Validations from '../middlewares/Validations';
 import { validLoginBody, userFromDB, invalidEmailLoginBody, invalidPasswordLoginBody } from './mocks/UserMock';
 
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 
 chai.use(chaiHttp);
 
