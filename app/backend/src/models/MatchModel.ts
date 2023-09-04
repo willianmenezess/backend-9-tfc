@@ -17,17 +17,6 @@ export default class MatchModel implements IMatchModel {
     return matches;
   }
 
-  // public async findById(id: IMatch['id']): Promise<IMatch | null> {
-  //   const match = await this.model.findOne({
-  //     where: { id },
-  //     include: [
-  //       { model: SequelizeTeam, as: 'homeTeam', attributes: { exclude: ['id'] } },
-  //       { model: SequelizeTeam, as: 'awayTeam', attributes: { exclude: ['id'] } },
-  //     ],
-  //   });
-  //   return match;
-  // }
-
   public async findByFilterProgress(inProgress: boolean): Promise<IMatch[]> {
     const matches = await this.model.findAll({
       where: { inProgress },
