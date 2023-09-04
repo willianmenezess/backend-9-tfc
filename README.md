@@ -1,27 +1,4 @@
-# Boas vindas ao repositório do Trybe Futebol Clube!
-
-Para realizar o projeto, atente-se a cada passo descrito a seguir, e se tiver qualquer dúvida, nos envie por _Slack_! #vqv 🚀
-
-Aqui você vai encontrar os detalhes de como estruturar o desenvolvimento do seu projeto a partir deste repositório, utilizando uma branch específica e um _Pull Request_ para colocar seus códigos.
-
-<details>
-  <summary>📃 Termos e acordos</summary>
-
-- Ao iniciar este projeto, você concorda com as diretrizes do [Código de Conduta e do Manual da Pessoa Estudante da Trybe](https://app.betrybe.com/learn/student-manual/codigo-de-conduta-da-pessoa-estudante).
-
-</details>
-
-# Entregáveis
-
-Aqui você terá acesso ao contexto geral do projeto, ou seja, seu tema central e o prazo de entrega.
-
-<details>
-  <summary><strong>🤷🏽‍♀️ Como entregar</strong></summary><br />
-
-  Para entregar o seu projeto você deverá criar um *Pull Request* neste repositório.
-
-  Lembre-se que você pode consultar nosso conteúdo sobre *Git & GitHub* e nosso [Blog - Git & GitHub](https://blog.betrybe.com/tecnologia/git-e-github/) sempre que precisar!
-</details>
+# Repositório do projeto Trybe Futebol Clube!
 
 <details>
 <summary><strong>👨‍💻 O que deverá ser desenvolvido</strong></summary><br />
